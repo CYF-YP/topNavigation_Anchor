@@ -32,6 +32,7 @@ window.onload = function () {
 
     var nav = new navigation({
         container: "#container",
-        nav_bar: "#nav_bar"
+        nav_bar: "#nav_bar",
+        "ele_width": 150
     });
 }

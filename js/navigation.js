@@ -11,9 +11,10 @@
         self = Object.assign(self, options);
         self.nav_bar = document.querySelector(self.nav_bar) || document.querySelectorAll(self.nav_bar);
         self.container = document.querySelector(self.container) || document.querySelectorAll(self.container);
+        self.ele_width = self.ele_width;
 
         self.setAnchorPoint(self.nav_bar, self.container);
-        self.onScrollLevel(self.nav_bar, window);
+        self.onScrollLevel(self.nav_bar, self.ele_width, window);
         self.onScrollVertical(self.nav_bar, self.container, window);
     }
 
@@ -32,16 +33,16 @@
                 $(this).on('click', function () {
                     var obj = $(this);
                     obj.addClass('linkActive').siblings().removeClass('linkActive');
-                    if(index == 0) {
-                        $(ele_nav).css({ 'position': 'relative', 'top': 'auto' });
+                    if (index == 0) {
+                        $(ele_nav).css({ 'position': 'relative', 'top': 'auto', 'z-index': 9 });
                     } else {
-                        $(ele_nav).css({ 'position': 'fixed', 'top': '0' });
+                        $(ele_nav).css({ 'position': 'fixed', 'top': '0', 'z-index': 99 });
                     }
                 });
             });
         },
         // 导航栏水平滑动
-        onScrollLevel: function (ele_nav, window) {
+        onScrollLevel: function (ele_nav, ele_width, window) {
             $(window).scroll(function () {
                 var temNavList = [];
                 var activityIndex = null;
@@ -52,9 +53,15 @@
                     }
                 });
 
-                // 150是每个元素宽度
+                // ele_width是每个元素宽度
                 if (activityIndex) {
-                    $(ele_nav).children().eq(0).scrollLeft((activityIndex - 1) * 150);
+                    // $(ele_nav).children().eq(0).scrollLeft((activityIndex - 1) * ele_width);
+                    var timer = setTimeout(function () {
+                        $(ele_nav).children().eq(0).stop().animate({
+                            scrollLeft: (activityIndex - 1) * ele_width + 'px'
+                        }, 'fast', 'linear');
+                        clearTimeout(timer);
+                    }, 100);
                 }
             });
         },
@@ -64,26 +71,26 @@
                 var top = $(window).scrollTop();
                 var temlist = [];
                 if (top >= ($(ele_nav).prev().outerHeight() + $(ele_nav).prev().offset().top)) {
-                    $(ele_nav).css({ 'position': 'fixed', 'top': '0' });
+                    $(ele_nav).css({ 'position': 'fixed', 'top': '0', 'z-index': 99 });
                     $(ele_container).find('div[data-anchor="true"]').each(function (index, element) {
                         temlist.push($(element).offset().top);
                     });
                     temlist.map(function (value, index, arr) {
-                        // 5为设置的多的偏移量,防止刚刚好滑到这个地方时出错
-                        if (value <= top + 5) {
+                        // 10为设置的多的偏移量,防止刚刚好滑到这个地方时出错
+                        if (value <= top + 10) {
                             if (index != arr.length - 1) {
-                                if (temlist[index + 1] > top + 5) {
+                                if (temlist[index + 1] > top + 10) {
                                     $($(ele_nav).children().eq(0).find('.nav_bar_item')[index]).addClass('linkActive').siblings().removeClass('linkActive');
                                 }
                             } else {
-                                if (temlist[index] <= top + 5) {
+                                if (temlist[index] <= top + 10) {
                                     $($(ele_nav).children().eq(0).find('.nav_bar_item')[index]).addClass('linkActive').siblings().removeClass('linkActive');
                                 }
                             }
                         }
                     });
                 } else {
-                    $(ele_nav).css({ 'position': 'relative', 'top': 'auto' });
+                    $(ele_nav).css({ 'position': 'relative', 'top': 'auto', 'z-index': 9 });
                     $($(ele_nav).children().eq(0).find('.nav_bar_item')[0]).addClass('linkActive').siblings().removeClass('linkActive');
                 }
             });
