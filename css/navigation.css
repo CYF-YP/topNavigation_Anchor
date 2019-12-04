@@ -31,3 +31,9 @@
     box-shadow: 1px 1px 3px rgba(34, 25, 25, 0.2);
 }
 
+.hidden_nav {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+}
+

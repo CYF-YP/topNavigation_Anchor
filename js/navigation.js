@@ -24,7 +24,14 @@
         setAnchorPoint: function (ele_nav, ele_container) {
             $(ele_container).find('div[data-anchor="true"]').each(function (index, element) {
                 $(element).attr('id', 'nav_link_' + index);
+                $(element).addClass('hidden_nav');
             });
+            // 锚点对上偏移导航高度
+            var nav_height = $(ele_nav).outerHeight();
+            $('.hidden_nav').each(function () {
+                $(this).css({ 'top': -(nav_height * 2 - 5) });
+            });
+            
             $(ele_nav).children().eq(0).find('.nav_bar_item').each(function (index, element) {
                 $(element).attr('href', '#nav_link_' + index);
             });

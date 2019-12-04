@@ -24,12 +24,6 @@ window.onload = function () {
         $(this).html(html);
     });
 
-    // 锚点对上偏移导航高度
-    var nav_height = $('.nav_bar').outerHeight();
-    $('.hidden_nav').each(function () {
-        $(this).css({ 'top': -(nav_height*2-5) });
-    });
-
     var nav = new navigation({
         container: "#container",
         nav_bar: "#nav_bar",
