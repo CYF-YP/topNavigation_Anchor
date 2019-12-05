@@ -3,6 +3,7 @@
     width: 100%;
     z-index: 99;
     background: inherit;
+    overflow: hidden;
 }
 
 .nav_bar_content {
