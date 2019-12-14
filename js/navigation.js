@@ -56,7 +56,6 @@
         onScrollVertical: function (ele_nav, ele_container, ele_width, window) {
             var _this = this;
             $(window).scroll(function () {
-                _this.onScrollLevel(ele_nav, ele_width);
                 var top = $(window).scrollTop();
                 self.temlist = [];
                 if (top >= ($(ele_nav).prev().outerHeight() + $(ele_nav).prev().offset().top)) {
@@ -79,6 +78,7 @@
                     $(ele_nav).css({ 'position': 'relative', 'top': 'auto', 'z-index': 9 });
                     $($(ele_nav).children().eq(0).find('.nav_bar_item')[0]).addClass('linkActive').siblings().removeClass('linkActive');
                 }
+                _this.onScrollLevel(ele_nav, ele_width);
             });
         },
         // 导航栏按钮点击事件
